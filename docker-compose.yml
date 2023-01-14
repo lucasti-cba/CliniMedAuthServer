@@ -1,0 +1,36 @@
+version: '3.4'
+
+services:
+  clinimedauthserver:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=https://+:443;http://+:80
+    ports:
+      - "80"
+      - "443"
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+    image: ${DOCKER_REGISTRY-}clinimedauthserver
+    depends_on:
+      - db
+    build:
+      context: .
+      dockerfile: Dockerfile
+
+
+  db:
+    build:
+      dockerfile: ./docker/Dockerfile.pgsql
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    ports:
+      - "5433:5432"
+    environment:
+      POSTGRES_PASSWORD: postgres
+
+  redis:
+     image: redis
+
+volumes:
+  db_data: {}
