@@ -12,6 +12,7 @@ RUN dotnet restore "./CliniMedAuthServer.csproj"
 COPY . .
 WORKDIR "/src/."
 RUN dotnet build "CliniMedAuthServer.csproj" -c Release -o /app/build
+RUN dotnet dev-certs https --trust
 
 FROM build AS publish
 RUN dotnet publish "CliniMedAuthServer.csproj" -c Release -o /app/publish /p:UseAppHost=false

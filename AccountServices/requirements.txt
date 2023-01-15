@@ -1,0 +1,10 @@
+Django
+PyJWT
+psycopg2-binary
+djangorestframework_simplejwt
+djoser
+Pillow
+djangorestframework
+python-jose
+
+

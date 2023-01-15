@@ -18,6 +18,18 @@ services:
       context: .
       dockerfile: Dockerfile
 
+  web:
+    build:
+      context: ./AccountServices
+      dockerfile: Dockerfile.yaml
+    command: python manage.py runserver 0.0.0.0:8080
+
+    volumes:
+      - ./AccountServices:/code
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
 
   db:
     build:
