@@ -1,0 +1,11 @@
+FROM node:lts-alpine as build-stage
+RUN npm install -g http-server
+WORKDIR /srv/app
+COPY package*.json ./
+RUN npm install
+RUN npm install -g @vue/cli
+RUN vue create .
+COPY . .
+RUN npm run
+EXPOSE 8080
+CMD [ "http-server", "dist" ]

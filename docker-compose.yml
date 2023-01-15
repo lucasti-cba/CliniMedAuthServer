@@ -22,14 +22,26 @@ services:
     build:
       context: ./AccountServices
       dockerfile: Dockerfile.yaml
-    command: python manage.py runserver 0.0.0.0:8080
-
+    command: python manage.py runserver 0.0.0.0:8000
     volumes:
       - ./AccountServices:/code
     ports:
-      - "8080:8080"
+      - "8000:8000"
     depends_on:
       - db
+
+  frontend:
+    build:
+      context: ./FrontEnd
+      dockerfile: Dockerfile.yaml
+    volumes:
+      - ./FrontEnd:/srv/app
+    ports:
+      - "8080:8080"
+    image: node:12
+    working_dir: /srv/app
+    command: 'npm run serve'
+
 
   db:
     build:
